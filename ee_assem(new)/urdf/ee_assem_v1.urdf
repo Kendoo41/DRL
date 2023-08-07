@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.5.1-0-g916b5db  Build Version: 1.5.7152.31018
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="ee_assem">
+  
+	<link name="world"/>
+	<joint name="base_joint" type="fixed">
+		<parent link="world"/>
+		<child link="base_link"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+	</joint>
+  
+  <link
+    name="end_enf">
+    <inertial>
+      <origin
+        xyz="8.3267E-17 0 0.096992"
+        rpy="0 0 0" />
+      <mass
+        value="0.24537" />
+      <inertia
+        ixx="0.0006313"
+        ixy="8.5962E-21"
+        ixz="-5.1617E-19"
+        iyy="0.00085607"
+        iyz="-6.1777E-20"
+        izz="0.00041783" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ee_assem/meshes/end_enf.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ee_assem/meshes/end_enf.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="claw_1">
+    <inertial>
+      <origin
+        xyz="0.024057 0.01 0.0065931"
+        rpy="0 0 0" />
+      <mass
+        value="0.0153" />
+      <inertia
+        ixx="7.6554E-07"
+        ixy="3.2083E-23"
+        ixz="3.3914E-07"
+        iyy="4.494E-06"
+        iyz="-3.0551E-23"
+        izz="4.711E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 -0.01 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ee_assem/meshes/claw_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ee_assem/meshes/claw_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_claw_1"
+    type="prismatic">
+    <origin
+      xyz="0 0 0.163"
+      rpy="0 -1.5708 0" />
+    <parent
+      link="end_enf" />
+    <child
+      link="claw_1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0.01"
+      upper="0.03"
+      effort="20"
+      velocity="2" />
+  </joint>
+  <link
+    name="claw_2">
+    <inertial>
+      <origin
+        xyz="0.024057 0.01 0.0065931"
+        rpy="0 0 0" />
+      <mass
+        value="0.0153" />
+      <inertia
+        ixx="7.6554E-07"
+        ixy="7.0525E-23"
+        ixz="3.3914E-07"
+        iyy="4.494E-06"
+        iyz="-7.8524E-24"
+        izz="4.711E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 -0.01 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ee_assem/meshes/claw_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://ee_assem/meshes/claw_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="joint_claw_2"
+    type="prismatic">
+    <origin
+      xyz="0 0 0.163"
+      rpy="3.1416 -1.5708 0" />
+    <parent
+      link="end_enf" />
+    <child
+      link="claw_2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="0.01"
+      upper="0.03"
+      effort="20"
+      velocity="2" />
+  </joint>
+  
+  <transmission name="claw_1_trans">
+		<type>transmission_interface/SimpleTransmission</type>
+		
+		<joint name="joint_claw_1">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		
+		<actuator name="claw_1_motor">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	
+  <transmission name="claw_2_trans">
+		<type>transmission_interface/SimpleTransmission</type>
+		
+		<joint name="joint_claw_2">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		
+		<actuator name="claw_2_motor">
+		<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	
+	<gazebo>
+		<plugin name="control"
+		filename="libgazebo_ros_control.so">
+			<robotNamespace></robotNamespace>
+		</plugin>
+	</gazebo>
+	
+	<gazebo reference="claw_1">
+		<selfCollide>false</selfCollide>
+	</gazebo>
+	
+	<gazebo reference="claw_2">
+		<selfCollide>false</selfCollide>
+	</gazebo>
+</robot>

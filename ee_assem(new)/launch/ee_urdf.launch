@@ -1,0 +1,31 @@
+<launch>
+  <arg name="arg_x" default="0.00" />
+  <arg name="arg_y" default="0.00" />
+  <arg name="arg_z" default="0.00" />
+  <arg name="arg_R" default="0.00" />
+  <arg name="arg_P" default="0.00" />
+  <arg name="arg_Y" default="0.00" />
+  <arg name="gui" default="true" />
+  <arg name="use_sim_time" default="true" />
+  <arg name="model" default="$(find ee_assem)/robots/mz07/mz07.urdf.xacro"/>
+  <!--Urdf file path-->
+  <param name="robot_description" command="$(find xacro)/xacro $(arg model)"/>
+
+  <!--spawn a empty gazebo world-->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+  	<arg name="use_sim_time" value="$(arg use_sim_time)"/>
+  </include>
+  <node name="tf_footprint_base" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 base_link base_footprint 40" />
+	
+  <!--spawn model-->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-x $(arg arg_x) -y $(arg arg_y) -z $(arg arg_z) -Y $(arg arg_Y) -param robot_description -urdf -model mz07" />
+
+  <!--Load and launch the joint trajectory controller-->
+  <rosparam file="$(find nachi_control)/config/mz07/mz07_joint_trajectory_control.yaml" command="load"/>
+  <!--node name= "controller_spawner" pkg= "controller_manager" type="spawner" respawn="false" output="screen" args="hand_ee_controller joint_state_controller"/-->
+  
+  <node name= "controller_spawner" pkg= "controller_manager" type="spawner" respawn="false" output="screen" ns="/mz07" args="joint_state_controller hand_ee_controller mz07_controller"/>
+  <!-- Robot State Publisher for TF of each joint: publishes all the current states of the joint, then RViz can visualize -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+respawn="false" output="screen"/>
+</launch>
