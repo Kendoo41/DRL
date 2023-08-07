@@ -1,0 +1,19 @@
+<launch>
+	<!-- launch your robot arsm launch file which loads the robot in gazebo and spawns the controllers -->
+	<include file="$(find ee_assem)/launch/ee_urdf.launch"/>
+	
+
+	<!-- launch launch Moveit Move Group Node -->
+	<include file="$(find move_sim)/launch/move_group.launch"/>
+	
+	<!--include file="$(find move_sim)/launch/ros_controllers.launch"/-->
+	<!-- run rviz and load the default config to see the state of the move_group node -->
+	<arg name="use_rviz" default="true" />
+	
+	<include file="$(find move_sim)/launch/moveit_rviz.launch" if="$(arg use_rviz)" >
+		<arg name="rviz_config" value="$(find move_sim)/launch/moveit.rviz"/>
+	</include>
+
+</launch>
+
+

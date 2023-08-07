@@ -1,0 +1,19 @@
+controller_list:
+  - name: mz07_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+    - J1
+    - J2
+    - J3
+    - J4
+    - J5
+    - J6
+  - name: hand_ee_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+    - joint_claw_1
+    - joint_claw_2

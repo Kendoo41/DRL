@@ -1,0 +1,6 @@
+<launch>
+	<!-- Define MoveIt controller manager plugin -->
+	<!--param name="moveit_controller_manager" value="moveit_ros_control_interface::MoveItControllerManager" /-->
+	<param name="moveit_controller_manager" value="moveit_simple_controller/MoveItSimpleControllerManager" />
+	<rosparam file="$(find move_sim)/config/ros_controllers.yaml" />
+</launch>
